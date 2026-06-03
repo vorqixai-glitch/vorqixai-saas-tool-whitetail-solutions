@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../hooks/useAuthStore';
-import { Navigate } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import { trpc } from '../utils/trpc';
 import { ShieldAlert } from 'lucide-react';
 import { z } from 'zod';
@@ -45,7 +45,7 @@ export default function Login() {
     try {
       if (isRegister) {
         registerSchema.parse({ email, password, name });
-        registerMutation.mutate({ email, password, name, role: role as 'user' | 'admin' });
+        registerMutation.mutate({ email, password, name, role: 'user' });
       } else {
         loginSchema.parse({ email, password });
         loginMutation.mutate({ email, password });
@@ -85,15 +85,6 @@ export default function Login() {
           <form className="space-y-6" onSubmit={handleSubmit}>
             {isRegister && (
               <>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Account Type</label>
-                  <div className="mt-1">
-                    <select value={role} onChange={e => setRole(e.target.value)} className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option value="user">Facility Operator (Client)</option>
-                      <option value="admin">White Tail Admin</option>
-                    </select>
-                  </div>
-                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">Full Name</label>
                   <div className="mt-1">
@@ -137,10 +128,13 @@ export default function Login() {
               </div>
             </div>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center flex flex-col items-center gap-4">
               <button onClick={() => setIsRegister(!isRegister)} className="text-sm text-indigo-600 hover:text-indigo-500 font-medium">
                 {isRegister ? 'Already have an account? Sign in' : "Don't have an account? Sign up"}
               </button>
+              <Link to="/admin/login" className="text-xs text-gray-500 hover:text-gray-700">
+                White Tail Admin Portal
+              </Link>
             </div>
           </div>
         </div>

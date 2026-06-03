@@ -20,12 +20,15 @@ import AdminClientDetails from './pages/AdminClientDetails';
 import { AuthLayout } from './components/AuthLayout';
 import { AdminLayout } from './components/AdminLayout';
 
+import AdminLogin from './pages/AdminLogin';
+
 export default function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         
         <Route element={<AuthLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />

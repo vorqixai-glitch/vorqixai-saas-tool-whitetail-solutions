@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { trpc } from '../utils/trpc';
@@ -12,6 +12,12 @@ export function AuthLayout() {
     retry: false
   });
 
+  useEffect(() => {
+    if (!user && !isLoading && token) {
+      logout();
+    }
+  }, [user, isLoading, token, logout]);
+
   if (!token || authUser?.role === 'admin') {
     return <Navigate to="/login" replace />;
   }
@@ -21,7 +27,6 @@ export function AuthLayout() {
   }
 
   if (!user && !isLoading) {
-    logout();
     return null;
   }
 

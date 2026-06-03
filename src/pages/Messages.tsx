@@ -3,6 +3,7 @@ import { trpc } from '../utils/trpc';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { Send, User as UserIcon, Building } from 'lucide-react';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 
 export default function Messages() {
   const { user } = useAuthStore();
@@ -72,7 +73,7 @@ export default function Messages() {
     <div className="flex flex-col h-[calc(100vh-8rem)] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
       <div className="p-4 bg-indigo-600 text-white flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <h1 className="font-semibold text-lg">{user?.role === 'admin' ? `Chat with Client ID: ${selectedUserId}` : 'Support Chat'}</h1>
+          <h1 className="font-semibold text-lg">{user?.role === 'admin' ? `Chat with ${clients?.find(c => c.localOwnerId === selectedUserId)?.name || 'Client'}` : 'Support Chat'}</h1>
         </div>
         {user?.role === 'admin' && (
           <button onClick={() => setSelectedUserId(undefined)} className="text-sm bg-indigo-700 hover:bg-indigo-800 px-3 py-1 rounded">Back</button>
@@ -93,7 +94,7 @@ export default function Messages() {
                      {msg.text}
                    </div>
                    <div className={`text-xs text-slate-400 mt-1 flex ${isMe ? 'justify-end' : 'justify-start'}`}>
-                      {format(new Date(parseInt(msg.createdAt!) || msg.createdAt!), 'MMM d, yyyy h:mm a')}
+                      {format(safeDate(msg.createdAt), 'MMM d, yyyy h:mm a')}
                    </div>
                 </div>
               </div>

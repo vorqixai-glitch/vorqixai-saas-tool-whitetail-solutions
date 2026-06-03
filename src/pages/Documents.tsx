@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import { FileText, Plus, FileSignature } from 'lucide-react';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 import { z } from 'zod';
 
 const documentSchema = z.object({
@@ -110,7 +111,7 @@ export default function Documents() {
             <h3 className="text-lg font-medium text-slate-900 truncate mb-1">{doc.title}</h3>
             <p className="text-sm text-slate-500 mb-6 flex-1 line-clamp-3">{doc.content}</p>
             <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-              <span className="text-xs text-slate-400">{format(new Date(parseInt(doc.createdAt!) || doc.createdAt!), 'MMM d, yyyy')}</span>
+              <span className="text-xs text-slate-400">{format(safeDate(doc.createdAt), 'MMM d, yyyy')}</span>
               {doc.signed !== 'yes' && (
                 <button 
                   onClick={() => signMutation.mutate({ id: doc.id })}

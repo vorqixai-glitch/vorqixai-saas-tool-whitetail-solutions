@@ -219,7 +219,8 @@ const adminRouter = router({
       const res = await db.select().from(residents).where(eq(residents.orgId, input.orgId));
       const comp = await db.select().from(complianceItems).where(eq(complianceItems.orgId, input.orgId));
       const docs = await db.select().from(documents).where(eq(documents.orgId, input.orgId));
-      return { residents: res, complianceItems: comp, documents: docs };
+      const apps = await db.select().from(licenseApplications).where(eq(licenseApplications.orgId, input.orgId));
+      return { residents: res, complianceItems: comp, documents: docs, licenseApplications: apps };
     })
 });
 

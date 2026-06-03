@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import { Search, Plus, Filter, MoreVertical } from 'lucide-react';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 import { z } from 'zod';
 
 const residentSchema = z.object({
@@ -130,7 +131,7 @@ export default function Residents() {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                  {resident.intakeDate ? format(new Date(parseInt(resident.intakeDate) || resident.intakeDate), 'MMM d, yyyy') : '-'}
+                  {resident.intakeDate ? format(safeDate(resident.intakeDate), 'MMM d, yyyy') : '-'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <select 

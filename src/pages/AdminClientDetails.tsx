@@ -60,11 +60,11 @@ export default function AdminClientDetails() {
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
-          <h2 className="text-lg font-medium text-slate-200 mb-4">Client Residents</h2>
+          <h2 className="text-lg font-medium text-slate-200 mb-4">Residents</h2>
           {data?.residents.length === 0 ? (
             <p className="text-slate-400 text-sm">No residents found.</p>
           ) : (
-            <ul className="divide-y divide-slate-700">
+            <ul className="divide-y divide-slate-700 max-h-64 overflow-y-auto">
               {data?.residents.map(r => (
                 <li key={r.id} className="py-2 text-sm text-slate-300">
                   {r.firstName} {r.lastName} - Room: {r.roomNumber || 'N/A'} ({r.status})
@@ -75,14 +75,44 @@ export default function AdminClientDetails() {
         </div>
 
         <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
-          <h2 className="text-lg font-medium text-slate-200 mb-4">Client Documents</h2>
+          <h2 className="text-lg font-medium text-slate-200 mb-4">Documents</h2>
           {data?.documents.length === 0 ? (
             <p className="text-slate-400 text-sm">No documents found.</p>
           ) : (
-            <ul className="divide-y divide-slate-700">
+            <ul className="divide-y divide-slate-700 max-h-64 overflow-y-auto">
               {data?.documents.map(d => (
                 <li key={d.id} className="py-2 text-sm text-slate-300">
                   {d.title} <span className="text-slate-500 ml-2">({d.signed === 'yes' ? 'Signed' : 'Not signed'})</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        
+        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
+          <h2 className="text-lg font-medium text-slate-200 mb-4">Compliance Items</h2>
+          {data?.complianceItems.length === 0 ? (
+            <p className="text-slate-400 text-sm">No compliance items found.</p>
+          ) : (
+            <ul className="divide-y divide-slate-700 max-h-64 overflow-y-auto">
+              {data?.complianceItems.map(c => (
+                <li key={c.id} className="py-2 text-sm text-slate-300">
+                  {c.title} <span className="text-slate-500 ml-2">({c.status})</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        
+        <div className="bg-slate-800 p-6 rounded-xl border border-slate-700">
+          <h2 className="text-lg font-medium text-slate-200 mb-4">License Applications</h2>
+          {data?.licenseApplications.length === 0 ? (
+            <p className="text-slate-400 text-sm">No applications found.</p>
+          ) : (
+            <ul className="divide-y divide-slate-700 max-h-64 overflow-y-auto">
+              {data?.licenseApplications.map(a => (
+                <li key={a.id} className="py-2 text-sm text-slate-300">
+                  {a.state} License - ({a.status})
                 </li>
               ))}
             </ul>

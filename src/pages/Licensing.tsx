@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import { ShieldAlert, Plus, Globe, UploadCloud, FileCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 import { z } from 'zod';
 
 const licenseSchema = z.object({
@@ -54,7 +55,7 @@ function LicenseDocsRow({ app }: { app: any; key?: React.Key }) {
           </span>
         </td>
         <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-          {format(new Date(parseInt(app.createdAt!) || app.createdAt!), 'MMM d, yyyy')}
+          {format(safeDate(app.createdAt), 'MMM d, yyyy')}
         </td>
       </tr>
       {expanded && (

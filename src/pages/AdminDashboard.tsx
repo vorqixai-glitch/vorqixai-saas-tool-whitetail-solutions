@@ -3,6 +3,7 @@ import { trpc } from '../utils/trpc';
 import { Users, FileText, CheckSquare, Building } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 
 export default function AdminDashboard() {
   const { data: clients, isLoading } = trpc.admin.getClients.useQuery();
@@ -52,7 +53,7 @@ export default function AdminDashboard() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
-                    {format(new Date(parseInt(client.createdAt!) || client.createdAt!), 'MMM d, yyyy')}
+                    {format(safeDate(client.createdAt), 'MMM d, yyyy')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <Link to={`/admin/clients/${client.id}`} className="text-indigo-400 hover:text-indigo-300">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { trpc } from '../utils/trpc';
 import { HelpCircle, Plus, Calendar } from 'lucide-react';
 import { format } from 'date-fns';
+import { safeDate } from '../utils/date';
 import { z } from 'zod';
 
 const consultingSchema = z.object({
@@ -93,7 +94,7 @@ export default function Consulting() {
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500">
-                  {format(new Date(parseInt(booking.createdAt!) || booking.createdAt!), 'MMM d, yyyy')}
+                  {format(safeDate(booking.createdAt), 'MMM d, yyyy')}
                 </td>
               </tr>
             ))}
