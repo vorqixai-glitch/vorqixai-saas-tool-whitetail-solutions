@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { trpc } from '../utils/trpc';
-import { Users, FileText, CheckSquare, ShieldAlert, Plus } from 'lucide-react';
+import { Users, FileText, CheckSquare, ShieldAlert, Plus, Lightbulb } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 export default function Dashboard() {
   const { data: stats, isLoading } = trpc.dashboard.stats.useQuery();
+  const [quote, setQuote] = useState<{ text: string; author: string } | null>(null);
+
+  useEffect(() => {
+    fetch('https://dummyjson.com/quotes/random')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.quote) {
+          setQuote({ text: data.quote, author: data.author });
+        }
+      })
+      .catch(err => console.error("Could not fetch quote:", err));
+  }, []);
 
   if (isLoading) return <div>Loading dashboard...</div>;
 
@@ -32,6 +44,18 @@ export default function Dashboard() {
           Add Resident
         </Link>
       </div>
+
+      {quote && (
+        <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-4 items-start">
+          <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600 flex-shrink-0">
+            <Lightbulb className="w-5 h-5" />
+          </div>
+          <div>
+            <p className="text-slate-800 italic font-medium">"{quote.text}"</p>
+            <p className="text-slate-500 text-sm mt-1">— {quote.author}</p>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {statCards.map((stat, idx) => {

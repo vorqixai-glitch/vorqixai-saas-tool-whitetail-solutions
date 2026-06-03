@@ -33,6 +33,28 @@ export default function Settings() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
+    if (formData.zip && formData.zip.length === 5) {
+      // Auto-fill city and state from zip code
+      fetch(`https://api.zippopotam.us/us/${formData.zip}`)
+        .then(res => {
+          if (res.ok) return res.json();
+          throw new Error('Invalid Zip');
+        })
+        .then(data => {
+          if (data && data.places && data.places.length > 0) {
+            const place = data.places[0];
+            setFormData(prev => ({
+              ...prev,
+              city: prev.city || place['place name'],
+              state: prev.state || place['state abbreviation']
+            }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [formData.zip]);
+
+  useEffect(() => {
     if (org) {
       setFormData({
         name: org.name || '',
